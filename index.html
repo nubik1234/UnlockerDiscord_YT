@@ -30,13 +30,17 @@
   input { width: 100%; font: inherit; padding: .7rem; border-radius: .55rem; border: 1px solid #987ab5; background: #170c24; color: #fff; }
   .buttons { display: flex; gap: .65rem; flex-wrap: wrap; margin-top: 1rem; }
   .secondary { background: #45305d; color: #fff; }
-  @media (max-width: 44rem) { main { grid-template-columns: 1fr; } }
+  .details { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); padding-top: 2rem; border-top: 1px solid #594171; }
+  .details h2 { font-size: 1.5rem; }
+  .details ul, .details ol { color: #d9c8e8; line-height: 1.6; padding-left: 1.4rem; }
+  .details li + li { margin-top: .65rem; }
+  @media (max-width: 44rem) { main, .details { grid-template-columns: 1fr; } }
 </style>
 <header><strong>Доступ</strong><a href="https://t.me/NubikVibeDostupSupportBot">Поддержка</a></header>
 <main>
   <section>
     <h1>Подписка на «Доступ»</h1>
-    <p>«Доступ» — приложение для Windows с сетевым туннелем для отдельных сервисов. После подтверждения оплаты ты получишь ключ активации на 30 дней.</p>
+    <p>«Доступ» — приложение для Windows, которое управляет подключением к выбранным сайтам, программам и игровым сервисам. Запускай и останавливай сетевой режим из одного окна.</p>
   </section>
   <section class="plan" aria-labelledby="tariff">
     <h2 id="tariff">Доступ на 30 дней</h2>
@@ -44,6 +48,26 @@
     <p>Одна оплата через СБП. Продление по желанию.</p>
     <button id="buy" type="button">Купить</button>
   </section>
+  <div class="details">
+    <section aria-labelledby="included">
+      <h2 id="included">Что входит в подписку</h2>
+      <ul>
+        <li><strong>Ключ активации на 30 дней.</strong> Он открывает доступ к сетевым профилям приложения на Windows.</li>
+        <li><strong>Два режима подключения.</strong> Базовый предназначен для YouTube и Discord. Расширенный добавляет маршруты для Telegram, Patreon, ChatGPT, Trike Isle и отдельных игровых сервисов The Isle и The Outlast Trials.</li>
+        <li><strong>Управление из приложения.</strong> В окне можно включать и выключать подключение и видеть, какие маршруты активны.</li>
+      </ul>
+      <p>Подписка относится к функциям «Доступа». Учётные записи и платные функции сторонних сервисов оформляются отдельно.</p>
+    </section>
+    <section aria-labelledby="steps">
+      <h2 id="steps">Как подключиться после запуска оплаты</h2>
+      <ol>
+        <li>Нажми «Купить», укажи email или Telegram-юзернейм для связи по заказу и оплати 100 ₽ через СБП.</li>
+        <li>После подтверждения платежа получи ключ активации на странице заказа.</li>
+        <li>Установи «Доступ» на Windows, введи ключ в окне активации, выбери режим и нажми «Включить».</li>
+      </ol>
+      <p>Продление оформляется отдельным платежом. По вопросам активации и заказа можно написать в поддержку.</p>
+    </section>
+  </div>
 </main>
 <footer>
   <nav aria-label="Документы и поддержка">
