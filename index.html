@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Доступ · Подписка на 30 дней</title>
+<style>
+  :root { color-scheme: dark; font-family: "Segoe UI", system-ui, sans-serif; color: #f9f5ff; background: #100919; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 75% 12%, #331459, transparent 62%); }
+  header, main, footer { width: min(64rem, calc(100% - 2rem)); margin: auto; }
+  header, footer { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; flex-wrap: wrap; padding: 1.5rem 0; }
+  header { border-bottom: 1px solid #594171; }
+  main { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; padding: clamp(3rem, 10vw, 7rem) 0; }
+  h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 1.02; margin: 0; letter-spacing: -.045em; }
+  h2 { margin: 0; font-size: 1.2rem; }
+  p { color: #d9c8e8; line-height: 1.6; }
+  section.plan, dialog { border: 1px solid #75549b; border-radius: 1.25rem; background: #231434; padding: 1.6rem; }
+  .price { margin: .45rem 0; font-size: 3rem; font-weight: 750; color: #fff; }
+  .price small { font-size: 1rem; font-weight: 500; color: #dcc7ef; }
+  button { font: inherit; font-weight: 700; border: 0; padding: .85rem 1.3rem; border-radius: .7rem; cursor: pointer; background: #a375f5; color: #160921; }
+  .plan button { width: 100%; }
+  a { color: #e1c7ff; text-underline-offset: .25em; }
+  :focus-visible { outline: 2px solid #e4ceff; outline-offset: 4px; }
+  footer { border-top: 1px solid #594171; color: #d9c8e8; }
+  footer nav { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; }
+  dialog { width: min(28rem, calc(100% - 2rem)); color: inherit; }
+  dialog::backdrop { background: #08040dba; }
+  label { display: block; margin: 1rem 0 .4rem; }
+  input { width: 100%; font: inherit; padding: .7rem; border-radius: .55rem; border: 1px solid #987ab5; background: #170c24; color: #fff; }
+  .buttons { display: flex; gap: .65rem; flex-wrap: wrap; margin-top: 1rem; }
+  .secondary { background: #45305d; color: #fff; }
+  @media (max-width: 44rem) { main { grid-template-columns: 1fr; } }
+</style>
+<header><strong>Доступ</strong><a href="https://t.me/NubikVibeDostupSupportBot">Поддержка</a></header>
+<main>
+  <section>
+    <h1>Подписка на «Доступ»</h1>
+    <p>«Доступ» — приложение для Windows с сетевым туннелем для отдельных сервисов. После подтверждения оплаты ты получишь ключ активации на 30 дней.</p>
+  </section>
+  <section class="plan" aria-labelledby="tariff">
+    <h2 id="tariff">Доступ на 30 дней</h2>
+    <p class="price">100 ₽ <small>за 30 дней</small></p>
+    <p>Одна оплата через СБП. Продление по желанию.</p>
+    <button id="buy" type="button">Купить</button>
+  </section>
+</main>
+<footer>
+  <nav aria-label="Документы и поддержка">
+    <a href="privacy.html">Политика конфиденциальности</a>
+    <a href="terms.html">Пользовательское соглашение</a>
+    <a href="https://t.me/NubikVibeDostupSupportBot">Поддержка в Telegram</a>
+  </nav>
+  <span>Agetalp</span>
+</footer>
+<dialog id="checkout" aria-labelledby="checkout-title">
+  <h2 id="checkout-title">Подписка · 100 ₽ за 30 дней</h2>
+  <p id="status" role="status">Оплата пока недоступна. Можно посмотреть, как будет выглядеть оформление. Контакт не сохраняется.</p>
+  <form id="purchase">
+    <label for="contact">Email или Telegram-юзернейм</label>
+    <input id="contact" type="text" required maxlength="254" autocomplete="off" placeholder="you@example.com или @username">
+    <div class="buttons">
+      <button type="submit">Оплатить 100 ₽</button>
+      <button id="close" class="secondary" type="button">Закрыть</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  const checkout = document.getElementById('checkout');
+  const contact = document.getElementById('contact');
+  const status = document.getElementById('status');
+  const previewMessage = status.textContent;
+  document.getElementById('buy').addEventListener('click', () => checkout.showModal());
+  document.getElementById('close').addEventListener('click', () => checkout.close());
+  checkout.addEventListener('close', () => {
+    contact.value = '';
+    contact.setCustomValidity('');
+    status.textContent = previewMessage;
+  });
+  contact.addEventListener('input', () => contact.setCustomValidity(''));
+  document.getElementById('purchase').addEventListener('submit', event => {
+    event.preventDefault();
+    const value = contact.value.trim();
+    if (!/^@?[a-z][a-z0-9_]{4,31}$/i.test(value) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      contact.setCustomValidity('Укажи email или Telegram-юзернейм.');
+      contact.reportValidity();
+      return;
+    }
+    contact.value = '';
+    status.textContent = 'Оплата пока недоступна. Деньги не списаны, контакт не сохранён.';
+  });
+</script>
+</html>
