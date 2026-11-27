@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Поддержка · Доступ</title>
+<style>
+  :root { color-scheme: dark; background: #100919; color: #f9f5ff; font: 1rem/1.6 "Segoe UI", system-ui, sans-serif; }
+  main { width: min(36rem, calc(100% - 2rem)); margin: 2rem auto; }
+  form { background: #231434; border: 1px solid #75549b; border-radius: 1.2rem; padding: 1.4rem; }
+  label { display: block; margin: .65rem 0 .3rem; }
+  input, textarea { box-sizing: border-box; width: 100%; font: inherit; padding: .65rem; border: 1px solid #987ab5; border-radius: .5rem; background: #170c24; color: #fff; }
+  button { margin-top: 1rem; border: 0; padding: .75rem 1.2rem; border-radius: .6rem; background: #a375f5; color: #160921; font: inherit; font-weight: 700; }
+  button:disabled { opacity: .65; }
+  a { color: #e1c7ff; }
+</style>
+<main>
+  <nav><a href="./">Доступ</a></nav>
+  <h1>Создать обращение</h1>
+  <p>Опиши, что случилось. Поддержка ответит по указанному контакту.</p>
+  <form id="ticket" data-endpoint="https://144.31.57.100/support/tickets">
+    <label for="contact">Email или Telegram-юзернейм</label>
+    <input id="contact" type="text" required maxlength="254" placeholder="you@example.com или @username">
+    <label for="message">Сообщение</label>
+    <textarea id="message" required maxlength="1000" rows="6"></textarea>
+    <button type="submit" disabled>Отправить обращение</button>
+    <p id="result" role="status" aria-live="polite">Веб-приём обращений пока недоступен.</p>
+  </form>
+  <p><a href="privacy.html">Политика конфиденциальности</a> · <a href="terms.html">Пользовательское соглашение</a></p>
+</main>
+<script>
+  const form = document.getElementById('ticket');
+  const result = document.getElementById('result');
+  const button = form.querySelector('button');
+  const endpoint = form.dataset.endpoint;
+  if (endpoint) {
+    button.disabled = false;
+    result.textContent = '';
+  }
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!endpoint || button.disabled) return;
+    button.disabled = true;
+    result.textContent = 'Отправляем обращение…';
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          contact: document.getElementById('contact').value.trim(),
+          message: document.getElementById('message').value.trim()
+        })
+      });
+      if (response.status === 400) {
+        result.textContent = 'Проверь контакт и текст обращения.';
+      } else if (response.status === 429) {
+        result.textContent = 'Подожди минуту перед отправкой нового обращения.';
+      } else {
+        if (response.status !== 201) throw new Error('Ticket rejected');
+        const {ticket} = await response.json();
+        form.reset();
+        result.textContent = `Обращение №${ticket} принято.`;
+      }
+    } catch {
+      result.textContent = 'Не удалось отправить обращение. Попробуй позже.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
+</html>
