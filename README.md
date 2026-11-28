@@ -2,7 +2,7 @@
 
 «Доступ» — приложение для Windows с сетевыми профилями для отдельных сайтов, программ и игровых сервисов. В главном окне можно выбрать режим подключения и проверить, какие маршруты активны.
 
-[Скачать установщик для Windows x64](https://github.com/nubik1234/UnlockerDiscord_YT/releases/download/v1.9.7/Dostup-Setup-1.9.7.exe) · [Страница приложения](https://nubik1234.github.io/UnlockerDiscord_YT/)
+[Скачать установщик для Windows x64](https://github.com/nubik1234/UnlockerDiscord_YT/releases/download/v1.9.8/Dostup-Setup-1.9.8.exe) · [Страница приложения](https://nubik1234.github.io/UnlockerDiscord_YT/)
 
 ## Режимы подключения
 
