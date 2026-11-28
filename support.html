@@ -13,11 +13,17 @@
   button { margin-top: 1rem; border: 0; padding: .75rem 1.2rem; border-radius: .6rem; background: #a375f5; color: #160921; font: inherit; font-weight: 700; }
   button:disabled { opacity: .65; }
   a { color: #e1c7ff; }
+  .embedded main { width: 100%; margin: 0; }
+  .embedded nav, .embedded h1 { display: none; }
 </style>
+<script>
+  if (new URLSearchParams(location.search).get('embedded') === '1' && window.parent !== window)
+    document.documentElement.classList.add('embedded');
+</script>
 <main>
   <nav><a href="./">Доступ</a></nav>
   <h1>Создать обращение</h1>
-  <p>Опиши, что случилось. Поддержка ответит по указанному контакту.</p>
+  <p>Напиши, с какой проблемой столкнулся. Мы ответим по указанному email или в Telegram.</p>
   <form id="ticket" data-endpoint="https://144.31.57.100/support/tickets">
     <label for="contact">Email или Telegram-юзернейм</label>
     <input id="contact" type="text" required maxlength="254" placeholder="you@example.com или @username">

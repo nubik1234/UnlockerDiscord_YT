@@ -42,6 +42,8 @@
   #preview { width: fit-content; max-width: calc(100% - 1.5rem); max-height: calc(100% - 1.5rem); padding: .75rem; }
   .preview-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem 1.1rem; margin-bottom: .75rem; }
   .preview-bar button { padding: .45rem .8rem; }
+  #support-dialog { width: min(39rem, calc(100% - 1.5rem)); max-height: calc(100% - 1.5rem); padding: .8rem; }
+  #support-dialog iframe { display: block; width: 100%; height: min(34rem, 72vh); border: 0; }
   #preview-image { display: block; max-width: min(82vw, 58rem); max-height: 72vh; width: auto; height: auto; margin: 0 auto; border-radius: .45rem; }
   label { display: block; margin: 1rem 0 .4rem; }
   input { width: 100%; font: inherit; padding: .7rem; border-radius: .55rem; border: 1px solid #987ab5; background: #170c24; color: #fff; }
@@ -53,7 +55,7 @@
   .details li + li { margin-top: .65rem; }
   @media (max-width: 44rem) { main, .details, .purchase-row { grid-template-columns: 1fr; } }
 </style>
-<header><strong>Доступ</strong><nav aria-label="Навигация"><a href="#product">О приложении</a><a href="#tariff">Подписка</a><a href="support.html">Создать обращение</a><a href="https://t.me/NubikVibeDostupSupportBot">Бот поддержки</a></nav></header>
+<header><strong>Доступ</strong><nav aria-label="Навигация"><a href="#product">О приложении</a><a href="#tariff">Подписка</a><a href="support.html" data-support>Создать обращение</a><a href="https://t.me/NubikVibeDostupSupportBot">Бот поддержки</a></nav></header>
 <main>
   <section id="product">
     <h1>«Доступ» для Windows</h1>
@@ -106,7 +108,7 @@
   <nav aria-label="Документы и поддержка">
     <a href="privacy.html">Политика конфиденциальности</a>
     <a href="terms.html">Пользовательское соглашение</a>
-    <a href="support.html">Создать обращение</a>
+    <a href="support.html" data-support>Создать обращение</a>
     <a href="https://t.me/NubikVibeDostupSupportBot">Бот поддержки</a>
   </nav>
   <span>Agetalp</span>
@@ -130,7 +132,25 @@
     </div>
   </form>
 </dialog>
+<dialog id="support-dialog" aria-labelledby="support-title">
+  <div class="preview-bar">
+    <h2 id="support-title">Поддержка «Доступа»</h2>
+    <form method="dialog"><button class="secondary" type="submit" autofocus>Закрыть</button></form>
+  </div>
+  <iframe id="support-frame" title="Форма обращения в поддержку"></iframe>
+</dialog>
 <script>
+  const supportDialog = document.getElementById('support-dialog');
+  const supportFrame = document.getElementById('support-frame');
+  document.querySelectorAll('[data-support]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !supportDialog.showModal) return;
+      event.preventDefault();
+      if (!supportFrame.getAttribute('src')) supportFrame.src = link.href + '?embedded=1';
+      supportDialog.showModal();
+    });
+  });
+
   const preview = document.getElementById('preview');
   const previewImage = document.getElementById('preview-image');
   const previewTitle = document.getElementById('preview-title');
