@@ -11,7 +11,7 @@
   header, main, footer { width: min(64rem, calc(100% - 2rem)); margin: auto; }
   header, footer { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; flex-wrap: wrap; padding: 1.5rem 0; }
   header { border-bottom: 1px solid #594171; }
-  main { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; padding: clamp(3rem, 10vw, 7rem) 0; }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(1.5rem, 5vw, 4rem); row-gap: clamp(2rem, 6vw, 4rem); align-items: center; padding: clamp(2.75rem, 7vw, 5rem) 0; }
   h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 1.02; margin: 0; letter-spacing: -.045em; }
   h2 { margin: 0; font-size: 1.2rem; }
   p { color: #d9c8e8; line-height: 1.6; }
@@ -19,22 +19,30 @@
   .price { margin: .45rem 0; font-size: 3rem; font-weight: 750; color: #fff; }
   .price small { font-size: 1rem; font-weight: 500; color: #dcc7ef; }
   button { font: inherit; font-weight: 700; border: 0; padding: .85rem 1.3rem; border-radius: .7rem; cursor: pointer; background: #a375f5; color: #160921; }
-  .plan button { width: 100%; }
+  .plan { display: flex; flex-direction: column; align-items: flex-start; }
+  .plan button { width: 100%; margin-top: auto; }
   a { color: #e1c7ff; text-underline-offset: .25em; }
   header nav { display: flex; flex-wrap: wrap; gap: .6rem 1.3rem; }
   .download { display: inline-block; margin-top: .6rem; padding: .85rem 1.3rem; border-radius: .7rem; background: #a375f5; color: #160921; font-weight: 700; text-decoration: none; }
   .gallery { display: grid; justify-items: center; gap: .65rem; margin: 0; }
   .gallery img { display: block; width: min(100%, 20rem); height: auto; border: 1px solid #75549b; border-radius: .9rem; }
   .gallery figcaption, .platform { color: #d9c8e8; font-size: .9rem; }
-  .gallery a { display: grid; justify-items: center; }
+  .gallery .zoom { display: grid; justify-items: center; padding: 0; background: transparent; cursor: zoom-in; }
+  .gallery .zoom:hover img { border-color: #c4a0ff; }
   .setup-preview { margin-top: 1rem; justify-items: start; }
   .setup-preview img { width: min(100%, 23rem); }
-  .purchase-row { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+  .purchase-row { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: stretch; }
+  .purchase-row > section { padding: clamp(1rem, 3vw, 1.6rem); }
+  .purchase-row > section:first-child { border: 1px solid #594171; border-radius: 1.25rem; background: #1b1029; }
   :focus-visible { outline: 2px solid #e4ceff; outline-offset: 4px; }
   footer { border-top: 1px solid #594171; color: #d9c8e8; }
   footer nav { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; }
   dialog { width: min(28rem, calc(100% - 2rem)); color: inherit; }
   dialog::backdrop { background: #08040dba; }
+  #preview { width: fit-content; max-width: calc(100% - 1.5rem); max-height: calc(100% - 1.5rem); padding: .75rem; }
+  .preview-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem 1.1rem; margin-bottom: .75rem; }
+  .preview-bar button { padding: .45rem .8rem; }
+  #preview-image { display: block; max-width: min(82vw, 58rem); max-height: 72vh; width: auto; height: auto; margin: 0 auto; border-radius: .45rem; }
   label { display: block; margin: 1rem 0 .4rem; }
   input { width: 100%; font: inherit; padding: .7rem; border-radius: .55rem; border: 1px solid #987ab5; background: #170c24; color: #fff; }
   .buttons { display: flex; gap: .65rem; flex-wrap: wrap; margin-top: 1rem; }
@@ -51,10 +59,10 @@
     <h1>«Доступ» для Windows</h1>
     <p>«Доступ» — приложение с выборочным VPN-туннелем. Оно направляет соединения выбранных сайтов, программ и игровых сервисов по настроенным маршрутам. В окне приложения можно выбрать режим и увидеть, какие маршруты активны.</p>
     <a class="download" href="https://github.com/nubik1234/UnlockerDiscord_YT/releases/download/v1.9.7/Dostup-Setup-1.9.7.exe">Скачать для Windows</a>
-    <p class="platform">Windows x64 · v1.9.7 · установщик с движками</p>
+    <p class="platform">Windows x64 · v1.9.7 · установщик</p>
   </section>
   <figure class="gallery">
-    <a href="dostup-app.png"><img src="dostup-app.png" width="510" height="691" alt="Окно «Доступа» со списком сервисов и расширенным режимом"></a>
+    <button class="zoom" type="button" data-preview="Главное окно" aria-label="Увеличить скриншот главного окна"><img src="dostup-app.png" width="510" height="691" alt="Окно «Доступа» со списком сервисов и расширенным режимом"></button>
     <figcaption>Главное окно приложения · нажми, чтобы увеличить</figcaption>
   </figure>
   <div class="purchase-row">
@@ -62,7 +70,7 @@
       <h2 id="usage">Как пользоваться</h2>
       <p>Установи приложение, выбери базовый или расширенный режим и нажми «Включить». Карточки в главном окне показывают, для каких сервисов активен выбранный маршрут.</p>
       <figure class="gallery setup-preview">
-        <a href="dostup-setup.jpg"><img src="dostup-setup.jpg" width="522" height="357" loading="lazy" alt="Установщик «Доступа» с выбором папки и ярлыка"></a>
+        <button class="zoom" type="button" data-preview="Установщик" aria-label="Увеличить скриншот установщика"><img src="dostup-setup.jpg" width="522" height="357" loading="lazy" alt="Установщик «Доступа» с выбором папки и ярлыка"></button>
         <figcaption>Установщик с выбором папки и ярлыка</figcaption>
       </figure>
     </section>
@@ -103,6 +111,13 @@
   </nav>
   <span>Agetalp</span>
 </footer>
+<dialog id="preview" aria-labelledby="preview-title">
+  <div class="preview-bar">
+    <h2 id="preview-title">Скриншот</h2>
+    <form method="dialog"><button class="secondary" type="submit" autofocus>Закрыть</button></form>
+  </div>
+  <img id="preview-image" alt="">
+</dialog>
 <dialog id="checkout" aria-labelledby="checkout-title">
   <h2 id="checkout-title">Подписка · 100 ₽ за 30 дней</h2>
   <p id="status" role="status">Оплата пока недоступна. Можно посмотреть, как будет выглядеть оформление. Контакт не сохраняется.</p>
@@ -116,6 +131,22 @@
   </form>
 </dialog>
 <script>
+  const preview = document.getElementById('preview');
+  const previewImage = document.getElementById('preview-image');
+  const previewTitle = document.getElementById('preview-title');
+  document.querySelectorAll('[data-preview]').forEach(button => {
+    button.addEventListener('click', () => {
+      const image = button.querySelector('img');
+      previewTitle.textContent = button.dataset.preview;
+      previewImage.src = image.src;
+      previewImage.alt = image.alt;
+      preview.showModal();
+    });
+  });
+  preview.addEventListener('click', event => {
+    if (event.target === preview) preview.close();
+  });
+
   const checkout = document.getElementById('checkout');
   const contact = document.getElementById('contact');
   const status = document.getElementById('status');
